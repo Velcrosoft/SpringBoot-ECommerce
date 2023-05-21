@@ -1,5 +1,6 @@
 package com.posgrado.ecommerce.service;
 
+import com.posgrado.ecommerce.dto.PageDto;
 import com.posgrado.ecommerce.dto.ProductDto;
 import com.posgrado.ecommerce.entity.Product;
 import java.util.UUID;
@@ -14,5 +15,5 @@ public interface ProductService {
 
   Page<Product> getProducts(Pageable pageable);
 
-  Page<Product> getFilteredProducts(Double minPrice, Double maxPrice, Pageable pageable);
+  PageDto<Product> getFilteredProducts(Double minPrice, Double maxPrice, Pageable pageable);
 }

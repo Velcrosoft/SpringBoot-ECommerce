@@ -1,5 +1,6 @@
 package com.posgrado.ecommerce.service;
 
+import com.posgrado.ecommerce.dto.PageDto;
 import com.posgrado.ecommerce.dto.ProductDto;
 import com.posgrado.ecommerce.entity.Category;
 import com.posgrado.ecommerce.entity.Product;
@@ -41,7 +42,8 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public Page<Product> getFilteredProducts(Double minPrice, Double maxPrice, Pageable pageable) {
-    return productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
+  public PageDto<Product> getFilteredProducts(Double minPrice, Double maxPrice, Pageable pageable) {
+    Page<Product> page = productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
+    return productMapper.fromEntity(page);
   }
 }
