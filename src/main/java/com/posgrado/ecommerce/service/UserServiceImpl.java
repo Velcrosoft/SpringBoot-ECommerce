@@ -29,4 +29,16 @@ public class UserServiceImpl implements UserService {
 
     return dto;
   }
+
+  @Override
+  public User create(User user) {
+    return userRepository.save(user);
+  }
+
+  @Override
+  public boolean existEmail(String email) {
+    return userRepository.findByEmail(email).isPresent();
+  }
+
+
 }

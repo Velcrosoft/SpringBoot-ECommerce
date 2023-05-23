@@ -3,8 +3,10 @@ package com.posgrado.ecommerce.service;
 import com.posgrado.ecommerce.dto.OrderDto;
 import com.posgrado.ecommerce.entity.Order;
 import com.posgrado.ecommerce.entity.OrderItem;
+import com.posgrado.ecommerce.exception.EntityNotFoundException;
 import com.posgrado.ecommerce.repository.OrderRepository;
 import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +37,19 @@ public class OrderServiceImpl implements OrderService {
     Order orderSaved = orderRepository.save(order);
 
     return "Order saved successfully";
+  }
+
+  @Override
+  public OrderDto getById(UUID id) {
+    Order order = orderRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Order", id));
+
+    OrderDto orderDto = new OrderDto();
+    orderDto.setComment(order.getComment());
+    orderDto.setState(order.getState());
+    orderDto.setTotalPrice(orderRepository.getTotalPrice(id));
+    orderDto.setItems(orderRepository.getItemsWithTotalPrice(id));
+
+    return orderDto;
   }
 }
