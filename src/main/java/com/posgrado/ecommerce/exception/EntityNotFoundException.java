@@ -1,6 +1,7 @@
 package com.posgrado.ecommerce.exception;
 
 import java.util.UUID;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 public class EntityNotFoundException extends RuntimeException {
 

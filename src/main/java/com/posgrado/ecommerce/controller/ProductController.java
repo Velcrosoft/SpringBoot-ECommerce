@@ -2,8 +2,10 @@ package com.posgrado.ecommerce.controller;
 
 import com.posgrado.ecommerce.dto.PageDto;
 import com.posgrado.ecommerce.dto.ProductDto;
+import com.posgrado.ecommerce.entity.Category;
 import com.posgrado.ecommerce.entity.Product;
 import com.posgrado.ecommerce.service.ProductService;
+import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +34,11 @@ public class ProductController {
   public ResponseEntity<Product> create(@RequestBody ProductDto dto) {
     Product productSaved = productService.create(dto);
     return ResponseEntity.status(HttpStatus.CREATED).body(productSaved);
+  }
+  @PutMapping("/{id}")
+  public ResponseEntity<Product> update(@PathVariable UUID id, @RequestBody ProductDto dto){
+    Product productUpdated = productService.update(id, dto);
+    return ResponseEntity.status(HttpStatus.OK).body(productUpdated);
   }
 
   @GetMapping("/{id}")
@@ -65,6 +73,11 @@ public class ProductController {
     Pageable pageable = PageRequest.of(page, size, sort);
     PageDto<Product> productPage = productService.getFilteredProducts(minPrice, maxPrice, pageable);
     return ResponseEntity.status(HttpStatus.OK).body(productPage);
+  }
+  @GetMapping("/category/{categoryId}")
+  public ResponseEntity<List<Product>> getAllProductsByIdCategory(@PathVariable UUID categoryId) {
+    List<Product> products = productService.getAllProductsByIdCategory(categoryId);
+    return ResponseEntity.status(HttpStatus.OK).body(products);
   }
 
 }
